@@ -15,8 +15,8 @@ def search_cars():
     make = request.args.get('make')
 
     if make:
-        query = f"SELECT * FROM cars WHERE make LIKE '%{make}%'"
-        cursor.execute(query)
+        query = "SELECT * FROM cars WHERE make LIKE ?"
+        cursor.execute(query, (f'%{make}%',))
         results = cursor.fetchall()
         return jsonify(results)
     else:
