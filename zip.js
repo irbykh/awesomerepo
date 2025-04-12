@@ -10,7 +10,12 @@ fs.createReadStream(zipFilePath)
   .pipe(unzipper.Parse())
   .on('entry', entry => {
     const filePath = path.join(extractPath, entry.path);
-    entry.pipe(fs.createWriteStream(filePath));
+    const resolvedPath = path.resolve(extractPath, entry.path);
+    if (resolvedPath.startsWith(path.resolve(extractPath)) && entry.path.indexOf('..') === -1) {
+      entry.pipe(fs.createWriteStream(filePath));
+    } else {
+      console.log('Skipping bad path:', entry.path);
+    }
   })
   .on('error', (err) => {
     console.error('Extraction error:', err);
