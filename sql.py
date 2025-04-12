@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-
+env_token = "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"
 # Database connection
 db = sqlite3.connect(':memory:', check_same_thread=False)
 cursor = db.cursor()
